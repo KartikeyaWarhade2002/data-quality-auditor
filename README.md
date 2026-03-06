@@ -150,7 +150,24 @@ Low Variance        → up to   -5
 
 ---
 
+## 📸 Screenshots
+
+**Quality Score Cards and Deductions Chart**
+<img width="7684" height="4322" alt="quality_score" src="https://github.com/user-attachments/assets/9ce22d3b-533e-4c11-b172-980eb82e2296" />
+
+**Outliers and Type Mismatches Tab**
+<img width="7684" height="4322" alt="issue_details" src="https://github.com/user-attachments/assets/a1d1bb98-1ff5-4ac6-9929-6981847c5fe0" />
+
+**Audit Log — Every Change Made**
+<img width="7684" height="4322" alt="audit_log" src="https://github.com/user-attachments/assets/c9016bf6-e22c-4513-a275-a57848eadf11" />
+
+**Cleaned Data and Download Buttons**
+<img width="7684" height="4322" alt="cleaned_data" src="https://github.com/user-attachments/assets/15f74ad5-9f53-4b8b-8e60-f4ce1e46845e" />
+
+
+---
+
 ## 👤 Developer
 
-**Kartikeya Babaraoji Warhade**
+**Kartikeya Warhade**
 [LinkedIn](https://linkedin.com/in/kartikeya-warhade) · [GitHub](https://github.com/KartikeyaWarhade2002)
