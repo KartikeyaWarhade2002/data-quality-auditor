@@ -16,15 +16,15 @@ Upload your dataset. The tool immediately runs a full audit across 8 issue types
 
 | # | Issue Type | Detection Method |
 |---|---|---|
-| 1 | Missing Values | Null count per column |
+| 1 | Missing Values | Null count per column with HIGH / MEDIUM / LOW severity tagging |
 | 2 | Duplicate Rows | Exact row matching |
 | 3 | IQR Outliers | Interquartile Range on coerced numeric columns |
-| 4 | Type Mismatches | Numeric columns containing text values |
-| 5 | Formatting Issues | Inconsistent casing, whitespace |
-| 6 | Low Variance Columns | Near-constant columns flagged |
-| 7 | Domain Range Violations | Values outside valid numeric bounds |
-| 8 | Invalid Categories | Values not in known valid lists |
-| ⚙️ | ML Anomalies | Isolation Forest unsupervised detection |
+| 4 | Type Mismatches | Numeric columns containing text — reports exact bad values and count |
+| 5 | Formatting Issues | Inconsistent casing detected via unique-value comparison |
+| 6 | Low Variance Columns | Near-constant columns with std < 0.001 flagged |
+| 7 | Domain Range Violations | Values outside defined valid numeric bounds |
+| 8 | Invalid Categories | Values not present in known valid category lists |
+| ⚙️ | ML Anomalies | Isolation Forest unsupervised detection (user-controlled contamination slider) |
 
 ---
 
@@ -36,7 +36,7 @@ Upload your dataset. The tool immediately runs a full audit across 8 issue types
 | 📈 Score Report | Quality score (0–100), grade, and deduction breakdown |
 | 🔍 Issue Details | Expandable rows showing exact violating values |
 | 🤖 ML Anomalies | Isolation Forest anomaly detection with score histogram |
-| 🧹 Cleaned Data | Auto-cleaned dataset with full audit log |
+| 🧹 Cleaned Data | Auto-cleaned dataset with color-coded audit log |
 | 📊 Data Profile | Column-by-column statistical profile |
 
 ---
@@ -45,21 +45,21 @@ Upload your dataset. The tool immediately runs a full audit across 8 issue types
 
 The cleaning runs in a strict order to ensure accuracy:
 
-1. **Type coercion** — converts object columns to numeric where appropriate  
-2. **Remove invalid category rows** — before filling missing values  
-3. **Remove duplicates**  
-4. **Fill missing values** — median for numeric, mode for categorical  
-5. **Domain range clamping** — enforces valid bounds (e.g. review_score → [0, 5])  
-6. **IQR capping** — caps remaining outliers for non-domain columns  
-7. **Standardize text case** — Title Case for all text columns  
-8. **Post-coercion fill** — handles any NaNs created during type conversion  
+1. **Type coercion** — converts object columns to numeric where ≥70% of values convert cleanly
+2. **Remove invalid category rows** — before filling missing values
+3. **Remove duplicates**
+4. **Fill missing values** — median for numeric, mode for categorical
+5. **Domain range clamping** — enforces valid bounds (e.g. `review_score` → [0, 5])
+6. **IQR capping** — caps remaining outliers at Q1−1.5×IQR and Q3+1.5×IQR
+7. **Standardize text case** — Title Case for all text columns
+8. **Post-coercion fill** — handles any NaNs created during type conversion
 
 ---
 
 ## 📤 Downloads
 
-- **Cleaned CSV** — ready-to-use dataset with all issues fixed  
-- **JSON Audit Report** — structured report with score, deductions, and every change made  
+- **Cleaned CSV** — ready-to-use dataset with all issues fixed
+- **JSON Audit Report** — structured report with score, deductions, and every change made
 
 ---
 
@@ -128,25 +128,24 @@ Save as `requirements.txt` in the project folder.
 ## 🔍 Quality Scoring
 
 ```
-Score starts at 100.
-Deductions applied per issue type:
+Score starts at 100. Deductions applied per issue found:
 
-Missing Values      → up to  -10
-Duplicate Rows      → up to  -10
-IQR Outliers        → up to   -5
-Type Mismatches     → up to  -10
-Formatting Issues   → up to  -10
-Domain Violations   → up to   -8
-Invalid Categories  → up to  -15
-Low Variance        → up to   -5
+Missing Values        → up to  -20
+Duplicate Rows        → up to  -15
+IQR Outliers          → up to  -10
+Type Mismatches       → up to  -10
+Formatting Issues     → up to   -8
+Domain Violations     → up to  -15
+Invalid Categories    → up to  -15
+Low Variance          → up to   -5
 ```
 
 | Score | Grade |
 |---|---|
-| 90–100 | Excellent ✅ |
-| 75–89 | Good 🟢 |
-| 60–74 | Needs Cleaning 🟡 |
-| Below 60 | Poor 🔴 |
+| 85–100 | Excellent ✅ |
+| 70–84  | Good 🟢 |
+| 50–69  | Needs Cleaning 🟡 |
+| Below 50 | Poor — Major Issues 🔴 |
 
 ---
 
