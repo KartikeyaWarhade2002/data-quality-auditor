@@ -6,7 +6,7 @@ Upload any CSV or Excel dataset and this tool automatically detects **8 types of
 
 ## 🚀 Live Demo
 
-> Run locally — see setup instructions below.
+> 🌐 **[Live App → data-quality-auditor-kartikeya.streamlit.app](https://data-quality-auditor-kartikeya.streamlit.app/)**
 
 ---
 
